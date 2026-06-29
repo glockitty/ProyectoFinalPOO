@@ -28,17 +28,174 @@ public class FrmRecetas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cmbTipo = new javax.swing.JComboBox<>();
+        txtSabor = new javax.swing.JTextField();
+        cmbIngrediente = new javax.swing.JComboBox<>();
+        txtDescripcionPaso = new javax.swing.JTextField();
+        btnAgregarIngrediente = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tablaIngredientesReceta = new javax.swing.JTable();
+        btnGuardarReceta = new javax.swing.JButton();
+        lblSabor = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
+        lblIngrediente = new javax.swing.JLabel();
+        lblPaso = new javax.swing.JLabel();
+        lblCantidad = new javax.swing.JLabel();
+        txtCantidadPorUnidad = new javax.swing.JTextField();
+        btnAgregarPaso = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaPasosReceta = new javax.swing.JTable();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        cmbTipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chups", "Paletas" }));
+
+        txtSabor.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        cmbIngrediente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cmbIngrediente.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ingr de invent" }));
+
+        txtDescripcionPaso.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnAgregarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAgregarIngrediente.setText("Agregar ingrediente");
+
+        jLabel1.setBackground(new java.awt.Color(51, 153, 255));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("RECETA");
+        jLabel1.setOpaque(true);
+
+        tablaIngredientesReceta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "Ingrediente", "Cantidad por unidad"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaIngredientesReceta);
+
+        btnGuardarReceta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGuardarReceta.setText("Guardar Receta ");
+
+        lblSabor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblSabor.setText("Sabor:");
+
+        lblTipo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTipo.setText("Tipo de helado: ");
+
+        lblIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblIngrediente.setText("Ingrediente:");
+
+        lblPaso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPaso.setText("Descripcion del paso:");
+
+        lblCantidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCantidad.setText("Cantidad por unidad:");
+
+        txtCantidadPorUnidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnAgregarPaso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAgregarPaso.setText("Agregar paso");
+
+        tablaPasosReceta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null}
+            },
+            new String [] {
+                "N° Paso", "Descripcion"
+            }
+        ));
+        jScrollPane2.setViewportView(tablaPasosReceta);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTipo)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblIngrediente)
+                        .addGap(18, 18, 18)
+                        .addComponent(cmbIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblCantidad)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtCantidadPorUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(23, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(btnGuardarReceta, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lblPaso)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtDescripcionPaso, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 685, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnAgregarPaso, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(23, 23, 23))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTipo)
+                    .addComponent(cmbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSabor)
+                    .addComponent(txtSabor, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblIngrediente)
+                    .addComponent(cmbIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCantidad)
+                    .addComponent(txtCantidadPorUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(btnAgregarIngrediente, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblPaso)
+                    .addComponent(txtDescripcionPaso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAgregarPaso)
+                .addGap(4, 4, 4)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuardarReceta)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         pack();
@@ -70,5 +227,23 @@ public class FrmRecetas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregarIngrediente;
+    private javax.swing.JButton btnAgregarPaso;
+    private javax.swing.JButton btnGuardarReceta;
+    private javax.swing.JComboBox<String> cmbIngrediente;
+    private javax.swing.JComboBox<String> cmbTipo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblCantidad;
+    private javax.swing.JLabel lblIngrediente;
+    private javax.swing.JLabel lblPaso;
+    private javax.swing.JLabel lblSabor;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JTable tablaIngredientesReceta;
+    private javax.swing.JTable tablaPasosReceta;
+    private javax.swing.JTextField txtCantidadPorUnidad;
+    private javax.swing.JTextField txtDescripcionPaso;
+    private javax.swing.JTextField txtSabor;
     // End of variables declaration//GEN-END:variables
 }

@@ -8,6 +8,6 @@ package controlador;
  *
  * @author maiam
  */
-public class RecetaController {
+public class ControladorInventario {
     
 }
