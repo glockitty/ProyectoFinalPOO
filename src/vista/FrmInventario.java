@@ -12,6 +12,8 @@ public class FrmInventario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmInventario.class.getName());
     
+    
+    
     /**
      * Creates new form FrmInventario
      */
@@ -43,7 +45,8 @@ public class FrmInventario extends javax.swing.JFrame {
         lblStockMinimo = new javax.swing.JLabel();
         txtStockMinimo = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Inventario");
 
         lblUnidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblUnidad.setText("Unidad:");
