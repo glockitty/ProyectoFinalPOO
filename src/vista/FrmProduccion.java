@@ -38,7 +38,8 @@ public class FrmProduccion extends javax.swing.JFrame {
         txtCantidadProducir = new javax.swing.JTextField();
         btnProducir = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Produccion");
 
         jLabel1.setBackground(new java.awt.Color(51, 204, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N

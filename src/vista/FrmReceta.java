@@ -8,14 +8,14 @@ package vista;
  *
  * @author maiam
  */
-public class FrmRecetas extends javax.swing.JFrame {
+public class FrmReceta extends javax.swing.JFrame {
     
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmRecetas.class.getName());
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmReceta.class.getName());
 
     /**
      * Creates new form FrmRecetas
      */
-    public FrmRecetas() {
+    public FrmReceta() {
         initComponents();
     }
 
@@ -47,7 +47,8 @@ public class FrmRecetas extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tablaPasosReceta = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Crear Receta ");
 
         cmbTipo.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cmbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Chups", "Paletas" }));
@@ -223,7 +224,7 @@ public class FrmRecetas extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmRecetas().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> new FrmReceta().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

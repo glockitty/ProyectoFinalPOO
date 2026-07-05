@@ -35,6 +35,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         lblTitulo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Menu Principal");
         setBackground(new java.awt.Color(204, 255, 102));
 
         btnInventario.setBackground(new java.awt.Color(255, 102, 51));
@@ -42,6 +43,7 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         btnInventario.setText("Inventario");
         btnInventario.setMaximumSize(new java.awt.Dimension(131, 31));
         btnInventario.setMinimumSize(new java.awt.Dimension(131, 31));
+        btnInventario.addActionListener(this::btnInventarioActionPerformed);
 
         btnRecetas.setBackground(new java.awt.Color(51, 153, 255));
         btnRecetas.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -49,16 +51,19 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
         btnRecetas.setMaximumSize(new java.awt.Dimension(131, 31));
         btnRecetas.setMinimumSize(new java.awt.Dimension(131, 31));
         btnRecetas.setOpaque(true);
+        btnRecetas.addActionListener(this::btnRecetasActionPerformed);
 
         btnProduccion.setBackground(new java.awt.Color(51, 204, 0));
         btnProduccion.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnProduccion.setText("Preparar helado");
         btnProduccion.setOpaque(true);
+        btnProduccion.addActionListener(this::btnProduccionActionPerformed);
 
         btnReportes.setBackground(new java.awt.Color(255, 255, 102));
         btnReportes.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         btnReportes.setText("Reporte/Historial");
         btnReportes.setOpaque(true);
+        btnReportes.addActionListener(this::btnReportesActionPerformed);
 
         lblTitulo.setBackground(new java.awt.Color(153, 51, 255));
         lblTitulo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -100,6 +105,22 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
+        new FrmInventario().setVisible(true);
+    }//GEN-LAST:event_btnInventarioActionPerformed
+
+    private void btnRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecetasActionPerformed
+        new FrmReceta().setVisible(true);
+    }//GEN-LAST:event_btnRecetasActionPerformed
+
+    private void btnProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduccionActionPerformed
+        new FrmProduccion().setVisible(true);
+    }//GEN-LAST:event_btnProduccionActionPerformed
+
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        new FrmReportes().setVisible(true);
+    }//GEN-LAST:event_btnReportesActionPerformed
 
     /**
      * @param args the command line arguments
