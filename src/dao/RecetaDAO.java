@@ -6,7 +6,6 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import modelo.Ingrediente;
 import modelo.PasoReceta;
 import modelo.Receta;
 import modelo.TipoHelado;
-import util.ArchivoUtil;
 
 /**
  *
@@ -24,7 +22,7 @@ import util.ArchivoUtil;
  */
 public class RecetaDAO extends ArchivoDAO{
     
-    public RecetaDAO() {
+    public RecetaDAO() throws IOException {
         super("recetas.txt");
     }
     
@@ -48,7 +46,7 @@ public class RecetaDAO extends ArchivoDAO{
                 
                 //DetalleReceta, ingrediente y cantidad
                 if (partes.length > 2 && !partes[2].trim().isEmpty()) {
-                    String[] tockensIngredientes = partes[2].split(",");
+                    String[] tockensIngredientes = partes[2].split(";");
                     for (String token : tockensIngredientes) {
                         String[] datos = token.split(":");
                         String nombreIngrediente = datos[0];
@@ -75,7 +73,7 @@ public class RecetaDAO extends ArchivoDAO{
                 listaRec.add(receta);
             }
             
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al leer recetas" + e.getMessage());
         }
         return listaRec;
@@ -83,11 +81,11 @@ public class RecetaDAO extends ArchivoDAO{
     
     
     public void agregar(Receta receta) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))){
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo,true))){
             bw.write(convertirALinea(receta));
             bw.newLine();
                     
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar receta" + e.getMessage());
         }
     }

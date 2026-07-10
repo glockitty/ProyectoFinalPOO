@@ -66,6 +66,15 @@ public class Receta {
         pasos.add(paso);
     }
     
+    private int obtenerSiguienteNumeroDePaso() {
+        return pasos.size() + 1;
+    }
+    
+    public void agregarPaso(String descripcion) {
+        int siguienteNumero = obtenerSiguienteNumeroDePaso();
+        agregarPaso(new PasoReceta(siguienteNumero,descripcion));
+    }
+    
     public String getIdentificador() {
         return tipoHelado + " - " + sabor;
     }

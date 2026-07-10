@@ -15,19 +15,19 @@ import util.ArchivoUtil;
 public abstract class ArchivoDAO {
     protected final File archivo;
     
-    public ArchivoDAO(String nombreArchivo) {
+    public ArchivoDAO(String nombreArchivo) throws IOException {
         ArchivoUtil.crearCarpetaSiNoExiste();
         archivo = new File(ArchivoUtil.Carpeta,nombreArchivo);
         crearArchivoSiNoExiste();
     }
     
-    public void crearArchivoSiNoExiste() {
+    public void crearArchivoSiNoExiste() throws IOException {
         try {
             if (!archivo.exists()) {
                 archivo.createNewFile();
             }
         } catch (IOException e) {
-            System.out.println("No se logro crear el archivo" + e.getMessage());
+            System.err.println("No se logro crear el archivo" + e.getMessage());
         }
     }
 }
