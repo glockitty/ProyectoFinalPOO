@@ -43,6 +43,7 @@ public class FrmProduccion extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(51, 204, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("PREPARAR HELADOS");
         jLabel1.setOpaque(true);

@@ -4,6 +4,8 @@
  */
 package vista;
 
+import java.io.IOException;
+
 /**
  *
  * @author maiam
@@ -107,7 +109,11 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInventarioActionPerformed
-        new FrmInventario().setVisible(true);
+        try {
+            new FrmInventario().setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(FrmMenuPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecetasActionPerformed

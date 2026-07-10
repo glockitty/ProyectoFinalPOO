@@ -4,6 +4,11 @@
  */
 package vista;
 
+import controlador.ControladorInventario;
+import java.io.IOException;
+import java.util.ArrayList;
+import modelo.Ingrediente;
+
 /**
  *
  * @author maiam
@@ -12,13 +17,35 @@ public class FrmInventario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmInventario.class.getName());
     
-    
+    private ControladorInventario _controladorInventario;
+    private String nombreSeleccionado;
     
     /**
      * Creates new form FrmInventario
+     * @throws java.io.IOException
      */
-    public FrmInventario() {
+    public FrmInventario() throws IOException {
         initComponents();
+        _controladorInventario = new ControladorInventario();
+        cargarTablaInventario();
+    }
+    
+    private void cargarTablaInventario() {
+        javax.swing.table.DefaultTableModel modelo = 
+                (javax.swing.table.DefaultTableModel) tablaInventario.getModel();
+        modelo.setRowCount(0);
+        
+        
+        ArrayList<Ingrediente> listaIng = _controladorInventario.obtenerIngredientes();
+        
+        for (Ingrediente ing : listaIng) {
+            String estado = ing.estaPorAgortarse() ? "Por agotarse!" : "OK";
+            Object[] fila = {
+                ing.getNombre(),ing.getUnidad(),ing.getStock(),ing.getStockMinimo(),estado
+            };
+            modelo.addRow(fila);
+        }
+        
     }
 
     /**
@@ -59,12 +86,15 @@ public class FrmInventario extends javax.swing.JFrame {
 
         btnAgregar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregar.setText("Agregar Ingrediente");
+        btnAgregar.addActionListener(this::btnAgregarActionPerformed);
 
         btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEditar.setText("Editar Ingrediente");
+        btnEditar.addActionListener(this::btnEditarActionPerformed);
 
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEliminar.setText("Eliminar ingrediente");
+        btnEliminar.addActionListener(this::btnEliminarActionPerformed);
 
         tablaInventario.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -76,7 +106,20 @@ public class FrmInventario extends javax.swing.JFrame {
             new String [] {
                 "Nombre", "Unidad", "Stock", "Stock minimo", "Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaInventario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaInventarioMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tablaInventario);
 
         jLabel1.setBackground(new java.awt.Color(255, 102, 51));
@@ -153,6 +196,120 @@ public class FrmInventario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tablaInventarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaInventarioMouseClicked
+        int fila = tablaInventario.getSelectedRow();
+        if (fila == -1) {
+        }
+        
+        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel)
+                tablaInventario.getModel();
+        
+        String nombre = (String) modelo.getValueAt(fila, 0);
+        String unidad = (String) modelo.getValueAt(fila, 1);
+        Double stock = (Double) modelo.getValueAt(fila, 2);
+        Double stockMinimo = (Double) modelo.getValueAt(fila, 3);
+        
+        txtNombre.setText(nombre);
+        txtUnidad.setText(unidad);
+        txtStock.setText(String.valueOf(stock));
+        txtStockMinimo.setText(String.valueOf(stockMinimo));
+        
+        nombreSeleccionado = nombre;
+        
+    }//GEN-LAST:event_tablaInventarioMouseClicked
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        String nombre = txtNombre.getText().trim();
+        String unidad = txtUnidad.getText().trim();
+        String textoStock = txtStock.getText().trim();
+        String textoStockMinimo = txtStockMinimo.getText().trim();
+        
+        if (textoStock.isEmpty() || textoStockMinimo.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Completa stock y stock minimo");
+        }
+        
+        
+        try {
+            double stock = Double.parseDouble(textoStock);
+            double stockMinimo = Double.parseDouble(textoStockMinimo);
+            
+            String resultado = _controladorInventario.registrarIngredientes(nombre, unidad, stock, stockMinimo);
+            javax.swing.JOptionPane.showMessageDialog(this, resultado);
+            
+            cargarTablaInventario();
+            limpiarCampos();
+            
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
+        }
+        
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+        if (nombreSeleccionado == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
+            return;
+        }
+        
+        String nuevoNombre = txtNombre.getText().trim();
+        String nuevaUnidad = txtUnidad.getText().trim();
+        String textoStock = txtStock.getText().trim();
+        String textoStockMinimo = txtStockMinimo.getText().trim();
+        
+        if (textoStock.isEmpty() || textoStockMinimo.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Completa stock y stock minimo.");
+            return;
+        }
+        
+        try {
+            double nuevoStock = Double.parseDouble(textoStock);
+            double nuevoStockMinimo = Double.parseDouble(textoStockMinimo);
+            
+            String resultado = _controladorInventario.editarIngrediente(
+                    nombreSeleccionado, nuevoNombre, nuevaUnidad, nuevoStock, nuevoStockMinimo);
+            javax.swing.JOptionPane.showMessageDialog(this, resultado);
+            
+            cargarTablaInventario();
+            limpiarCampos();
+            
+        } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
+        }
+        
+        
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if (nombreSeleccionado == null) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
+            return;
+        }
+        
+        int confirmacion = javax.swing.JOptionPane.showConfirmDialog(this,
+                "¿Seguro que deseas eliminar \"" + nombreSeleccionado + "\"?",
+                "Confirmar eliminacion",
+                javax.swing.JOptionPane.YES_NO_OPTION);
+
+        if (confirmacion != javax.swing.JOptionPane.YES_OPTION) {
+            return;
+        }
+        
+        String resultado = _controladorInventario.eliminarIngrediente(nombreSeleccionado);
+        javax.swing.JOptionPane.showMessageDialog(this, resultado);
+        
+        cargarTablaInventario();
+        limpiarCampos();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+    
+    
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtUnidad.setText("");
+        txtStock.setText("");
+        txtStockMinimo.setText("");
+        nombreSeleccionado = null;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -175,7 +332,13 @@ public class FrmInventario extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmInventario().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new FrmInventario().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(FrmInventario.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

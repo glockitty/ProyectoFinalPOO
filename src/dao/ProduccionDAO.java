@@ -6,14 +6,13 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import modelo.Produccion;
 import modelo.Receta;
 import modelo.TipoHelado;
-import util.ArchivoUtil;
 
 /**
  *
@@ -22,24 +21,28 @@ import util.ArchivoUtil;
 public class ProduccionDAO extends ArchivoDAO{
     
     
-    public ProduccionDAO() {
+    public ProduccionDAO() throws IOException {
         super("reportes.txt");
     }
     
     
     public void agregar(Produccion produccion) {
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
-            String linea = produccion.getFecha() + ";"
-                    + produccion.getReceta().getTipoHelado().name() + ";"
-                    + produccion.getReceta().getSabor() + ";" + 
-                    produccion.getCantidad();
-            bw.write(linea);
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo,true))) {
+            bw.write(convertirALinea(produccion));
             bw.newLine();
             
-        } catch (Exception e) {
-            System.out.println("Error al guardar reporte" + e.getMessage());
+        } catch (IOException e) {
+            System.err.println("Error al guardar reporte" + e.getMessage());
         }
     }
+    
+    private String convertirALinea(Produccion produccion) {
+        return produccion.getFecha() + ";"
+                    + produccion.getReceta().getTipoHelado().name() + ";"
+                    + produccion.getReceta().getSabor() + ";" 
+                    + produccion.getCantidad();
+    }
+    
     
     //se reconstruye receta para reportes.
     public ArrayList<Produccion> listarTodas() {
@@ -51,7 +54,7 @@ public class ProduccionDAO extends ArchivoDAO{
                 if (linea.trim().isEmpty()) {
                     continue;
                 }
-                String[] partes = linea.split("\\|");
+                String[] partes = linea.split(";");
                 String fecha = partes[0];
                 TipoHelado tipo = TipoHelado.valueOf(partes[1]);
                 String sabor = partes[2];
@@ -61,7 +64,7 @@ public class ProduccionDAO extends ArchivoDAO{
                 listaProd.add(new Produccion(recetaSimple,cantidad, fecha));
             }
             
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al leer reportes:" + e.getMessage());
         }
         return listaProd;

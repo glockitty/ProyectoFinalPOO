@@ -6,19 +6,18 @@ package dao;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import modelo.Ingrediente;
-import util.ArchivoUtil;
 /**
  *
  * @author maiam
  */
 public class IngredienteDAO extends ArchivoDAO {
     
-    public IngredienteDAO() {
+    public IngredienteDAO() throws IOException {
         super("inventario.txt");
     }
     
@@ -31,7 +30,7 @@ public class IngredienteDAO extends ArchivoDAO {
                 if (linea.trim().isEmpty()) {
                     continue;
                 }
-                String[] partes = linea.split("\\|");
+                String[] partes = linea.split(";");
                 String nombre = partes[0];
                 String unidad = partes[1];
                 double stock = Double.parseDouble(partes[2]);
@@ -39,7 +38,7 @@ public class IngredienteDAO extends ArchivoDAO {
                 listaIng.add(new Ingrediente(nombre, unidad,stock,stockMinimo));
                 
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al leer inventario" + e.getMessage());
         }
         return listaIng;
@@ -49,13 +48,19 @@ public class IngredienteDAO extends ArchivoDAO {
         
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(archivo))) {
             for(Ingrediente ing : lista) {
-                bw.write(ing.getNombre() + ";" + ing.getUnidad()
-                + ";" + ing.getStock() + ";" +ing.getStockMinimo());
+                bw.write(convertirALinea(ing));
                 bw.newLine();
             }
-        } catch (Exception e) {
+        } catch (IOException e) {
             System.out.println("Error al guardar inventario:" + e.getMessage());
         }
+    }
+    
+    private String convertirALinea(Ingrediente ingrediente) {
+        return ingrediente.getNombre() + ";" 
+                + ingrediente.getUnidad() + ";" 
+                + ingrediente.getStock() + ";" 
+                +ingrediente.getStockMinimo();
     }
     
     public void agregar(Ingrediente nuevo) {
