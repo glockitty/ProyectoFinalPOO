@@ -19,7 +19,7 @@ public class FrmInventario extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmInventario.class.getName());
     
-    private ControladorInventario _controladorInventario;
+    private final ControladorInventario _controladorInventario;
     private String nombreSeleccionado;
     
     /**

@@ -18,7 +18,7 @@ public class FrmReportes extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmReportes.class.getName());
     
-    private ControladorProduccion _controladorProduccion;
+    private final ControladorProduccion _controladorProduccion;
 
     /**
      * Creates new form FrmhHelados

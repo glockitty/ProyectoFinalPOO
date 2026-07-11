@@ -19,8 +19,8 @@ public class FrmProduccion extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmProduccion.class.getName());
     
-    private ControladorReceta _controladorReceta;
-    private ControladorProduccion _controladorProduccion;
+    private final ControladorReceta _controladorReceta;
+    private final ControladorProduccion _controladorProduccion;
     
     private ArrayList<Receta> recetasDisponibles;
 

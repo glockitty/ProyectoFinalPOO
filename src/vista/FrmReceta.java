@@ -22,8 +22,8 @@ public class FrmReceta extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmReceta.class.getName());
     
-    private ControladorReceta _controladorReceta;
-    private ControladorInventario _controladorInventario;
+    private final ControladorReceta _controladorReceta;
+    private final ControladorInventario _controladorInventario;
     
     //Receta se va guardando en memoria, hasta presionar "guardar receta"
     private Receta recetaEnConstruccion;
