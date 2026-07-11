@@ -17,8 +17,8 @@ import modelo.Receta;
  */
 public class ControladorReceta {
     
-    private RecetaDAO _recetaDAO;
-    private IngredienteDAO _ingredienteDAO;
+    private final RecetaDAO _recetaDAO;
+    private final IngredienteDAO _ingredienteDAO;
     
     public ControladorReceta() throws IOException {
         this._recetaDAO = new RecetaDAO();
