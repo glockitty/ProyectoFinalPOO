@@ -4,6 +4,13 @@
  */
 package vista;
 
+import controlador.ControladorProduccion;
+import controlador.ControladorReceta;
+import java.io.IOException;
+import java.util.ArrayList;
+import static javax.swing.JOptionPane.showMessageDialog;
+import modelo.Receta;
+
 /**
  *
  * @author maiam
@@ -11,12 +18,32 @@ package vista;
 public class FrmProduccion extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmProduccion.class.getName());
+    
+    private ControladorReceta _controladorReceta;
+    private ControladorProduccion _controladorProduccion;
+    
+    private ArrayList<Receta> recetasDisponibles;
 
     /**
      * Creates new form FrmProduccion
+     * @throws java.io.IOException
      */
-    public FrmProduccion() {
+    public FrmProduccion() throws IOException {
         initComponents();
+        _controladorReceta = new ControladorReceta();
+        _controladorProduccion = new ControladorProduccion();
+        cargarComboRecetas();
+    }
+    
+    private void cargarComboRecetas() {
+        cmbReceta.removeAllItems();
+        ArrayList<Receta> listaReceta = _controladorReceta.obtenerRecetas();
+        
+        for (Receta receta : listaReceta) {
+            cmbReceta.addItem(receta.getTipoHelado() + " - " + receta.getSabor());
+        }
+        
+        recetasDisponibles = listaReceta;
     }
 
     /**
@@ -62,6 +89,7 @@ public class FrmProduccion extends javax.swing.JFrame {
 
         btnProducir.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnProducir.setText("Producir");
+        btnProducir.addActionListener(this::btnProducirActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -107,6 +135,35 @@ public class FrmProduccion extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnProducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProducirActionPerformed
+        int indiceSeleccionado = cmbReceta.getSelectedIndex();
+        String textoCantidad = txtCantidadProducir.getText().trim();
+        
+        
+        if (indiceSeleccionado == -1 || recetasDisponibles == null || 
+                recetasDisponibles.isEmpty()) {
+            showMessageDialog(this, "No hay recetas guardadas. Crea una receta primero.");
+            return;
+        }
+        if (textoCantidad.isEmpty()) {
+            showMessageDialog(this, "Escribe la cantidad a producir.");
+            return;
+        }
+        
+        
+        try {
+            int cantidad = Integer.parseInt(textoCantidad);
+            Receta recetaSeleccionada = recetasDisponibles.get(indiceSeleccionado);
+            
+            String resultado = _controladorProduccion.prepararProduccion(recetaSeleccionada, cantidad);
+            txtAreaResultado.setText(resultado);
+            
+        } catch (NumberFormatException e) {
+            showMessageDialog(this, "La cantidad debe ser un numero entero.");
+        }
+        
+    }//GEN-LAST:event_btnProducirActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -129,7 +186,13 @@ public class FrmProduccion extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmProduccion().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new FrmProduccion().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(FrmProduccion.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

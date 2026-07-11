@@ -47,17 +47,17 @@ public class ControladorReceta {
         }
         
         receta.agregarDetalle(new DetalleReceta(ingrediente, cantidadPorUnidad));
-        return "El ingrediente se ha agregado correctamente a la receta.";
+        return "EXITO, el ingrediente se ha agregado a la receta.";
     }
     
     
     public String agregarPasoAReceta(Receta receta, String descripcion) {
         if (descripcion == null || descripcion.trim().isEmpty()) {
-            return "Error, la descripcion del paso no puede estar vacía";
+            return "ERROR, la descripcion del paso no puede estar vacía";
         }
         
         receta.agregarPaso(descripcion);
-        return "Paso agregado correctamente a la receta.";
+        return "EXITO, paso agregado a la receta.";
         
     }
     
@@ -73,7 +73,7 @@ public class ControladorReceta {
         }
         
         _recetaDAO.agregar(receta);
-        return "Receta guardada correctamente.";
+        return "EXITO: receta guardada correctamente.";
     }
     
     

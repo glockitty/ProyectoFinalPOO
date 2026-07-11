@@ -4,6 +4,16 @@
  */
 package vista;
 
+import controlador.ControladorInventario;
+import controlador.ControladorReceta;
+import java.io.IOException;
+import java.util.ArrayList;
+import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.table.DefaultTableModel;
+import modelo.Ingrediente;
+import modelo.Receta;
+import modelo.TipoHelado;
+
 /**
  *
  * @author maiam
@@ -11,14 +21,61 @@ package vista;
 public class FrmReceta extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmReceta.class.getName());
+    
+    private ControladorReceta _controladorReceta;
+    private ControladorInventario _controladorInventario;
+    
+    //Receta se va guardando en memoria, hasta presionar "guardar receta"
+    private Receta recetaEnConstruccion;
 
     /**
      * Creates new form FrmRecetas
+     * @throws java.io.IOException
      */
-    public FrmReceta() {
+    public FrmReceta() throws IOException {
         initComponents();
+        _controladorReceta = new ControladorReceta();
+        _controladorInventario = new ControladorInventario();
+        cargarComboTipo();
+        cargarComboIngredientes();
+        limpiarTablasReceta();
     }
+    
+    private void cargarComboTipo() {
+        cmbTipo.removeAllItems();
+        for (TipoHelado tipoh : TipoHelado.values()) {//meth q devuelve array
+            cmbTipo.addItem(tipoh.name());//Devuelve el nombre del valor del enum como String
+        }
+    }
+    
+    private void cargarComboIngredientes() {
+        cmbIngrediente.removeAllItems();
+        ArrayList<Ingrediente> listaIng = _controladorInventario.obtenerIngredientes();
+        for (Ingrediente ing : listaIng) {
+            cmbIngrediente.addItem(ing.getNombre());
+        }
+    }
+    
+    
+    private void limpiarTablasReceta() {
 
+        DefaultTableModel modeloIng =
+                (DefaultTableModel) tablaIngredientesReceta.getModel();
+        modeloIng.setRowCount(0);
+
+        DefaultTableModel modeloPasos =
+                (DefaultTableModel) tablaPasosReceta.getModel();
+        modeloPasos.setRowCount(0);
+    }
+    
+    private void crearRecetaSiNoExiste() {
+        if (recetaEnConstruccion == null) {
+            TipoHelado tipoh = TipoHelado.valueOf((String) cmbTipo.getSelectedItem());
+            String sabor = txtSabor.getText().trim();
+            recetaEnConstruccion = new Receta(tipoh, sabor);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -62,6 +119,7 @@ public class FrmReceta extends javax.swing.JFrame {
 
         btnAgregarIngrediente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarIngrediente.setText("Agregar ingrediente");
+        btnAgregarIngrediente.addActionListener(this::btnAgregarIngredienteActionPerformed);
 
         jLabel1.setBackground(new java.awt.Color(51, 153, 255));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -84,6 +142,7 @@ public class FrmReceta extends javax.swing.JFrame {
 
         btnGuardarReceta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnGuardarReceta.setText("Guardar Receta ");
+        btnGuardarReceta.addActionListener(this::btnGuardarRecetaActionPerformed);
 
         lblSabor.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblSabor.setText("Sabor:");
@@ -104,6 +163,7 @@ public class FrmReceta extends javax.swing.JFrame {
 
         btnAgregarPaso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarPaso.setText("Agregar paso");
+        btnAgregarPaso.addActionListener(this::btnAgregarPasoActionPerformed);
 
         tablaPasosReceta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -202,6 +262,107 @@ public class FrmReceta extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAgregarIngredienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarIngredienteActionPerformed
+        String sabor = txtSabor.getText().trim();
+        if (sabor.isEmpty()) {
+            showMessageDialog(this, "Escribe el sabor antes de agregar ingredientes.");
+            return;
+        }
+        crearRecetaSiNoExiste();
+        
+        String ingrediente = (String) cmbIngrediente.getSelectedItem();
+        String textoCantidad = txtCantidadPorUnidad.getText().trim();
+        
+        if (ingrediente == null) {
+            showMessageDialog(this,
+                    "No hay ingredientes en el inventario. Agrega primero en Inventario.");
+            return;
+        }
+        if (textoCantidad.isEmpty()) {
+            showMessageDialog(this, "Escribe la cantidad por unidad.");
+            return;
+        }
+        
+        try {
+            double cantidad = Double.parseDouble(textoCantidad);
+            
+            String resultado = _controladorReceta.agregarIngredienteAReceta(
+                    recetaEnConstruccion, ingrediente, cantidad);
+            
+            if (resultado.startsWith("ERROR")) {
+                showMessageDialog(this, resultado);
+                return;
+            }
+            
+            DefaultTableModel modelo =
+                    (DefaultTableModel) tablaIngredientesReceta.getModel();
+            modelo.addRow(new Object[]{
+                ingrediente, cantidad
+            });
+            
+            txtCantidadPorUnidad.setText("");
+            
+            
+        } catch (NumberFormatException e) {
+            showMessageDialog(this, "La cantidad debe ser un numero.");
+        }
+        
+        
+        
+    }//GEN-LAST:event_btnAgregarIngredienteActionPerformed
+
+    private void btnAgregarPasoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarPasoActionPerformed
+        String sabor = txtSabor.getText().trim();
+        
+        if (sabor.isEmpty()) {
+            showMessageDialog(this, "Escribe el sabor antes de agregar pasos.");
+            return;
+        }
+        crearRecetaSiNoExiste();
+        
+        
+        String descripcion = txtDescripcionPaso.getText().trim();
+        
+        String resultado = _controladorReceta.agregarPasoAReceta(
+                recetaEnConstruccion, descripcion);
+        
+        if (resultado.startsWith("ERROR")) {
+            showMessageDialog(this, resultado);
+            return;
+        }
+        
+        int numeroPaso = recetaEnConstruccion.getPasos().size();
+        
+       DefaultTableModel modelo =
+               (DefaultTableModel) tablaPasosReceta.getModel();
+       modelo.addRow(new Object[] {
+           numeroPaso, descripcion
+       });
+       
+       txtDescripcionPaso.setText("");
+        
+    }//GEN-LAST:event_btnAgregarPasoActionPerformed
+
+    private void btnGuardarRecetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarRecetaActionPerformed
+        if (recetaEnConstruccion == null) {
+            showMessageDialog(this, "Agrega al menos un ingrediente antes de guardar.");
+            return;
+        }
+        
+        String resultado = _controladorReceta.guardarReceta(recetaEnConstruccion);
+        showMessageDialog(this, resultado);
+        
+        if (resultado.startsWith("EXITO")) {
+            recetaEnConstruccion = null;
+            ((DefaultTableModel) tablaIngredientesReceta.getModel()).setRowCount(0);
+            ((DefaultTableModel) tablaPasosReceta.getModel()).setRowCount(0);
+            txtSabor.setText("");
+            txtCantidadPorUnidad.setText("");
+            txtDescripcionPaso.setText("");
+        }
+        
+    }//GEN-LAST:event_btnGuardarRecetaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -224,7 +385,13 @@ public class FrmReceta extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmReceta().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new FrmReceta().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(FrmReceta.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

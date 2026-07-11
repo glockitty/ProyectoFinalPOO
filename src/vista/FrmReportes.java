@@ -4,6 +4,12 @@
  */
 package vista;
 
+import controlador.ControladorProduccion;
+import java.io.IOException;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import modelo.Produccion;
+
 /**
  *
  * @author maiam
@@ -11,13 +17,38 @@ package vista;
 public class FrmReportes extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmReportes.class.getName());
+    
+    private ControladorProduccion _controladorProduccion;
 
     /**
      * Creates new form FrmhHelados
+     * @throws java.io.IOException
      */
-    public FrmReportes() {
+    public FrmReportes() throws IOException {
         initComponents();
+        _controladorProduccion = new ControladorProduccion();
+        cargarReportes();
     }
+    
+    //pide reportes y llena la tabla :v
+    private void cargarReportes() {
+        DefaultTableModel modelo =
+                (DefaultTableModel) tablaReportes.getModel();
+        modelo.setRowCount(0);
+        
+        ArrayList<Produccion> listProd = _controladorProduccion.obtenerReportes();
+        for (Produccion produccion : listProd) {
+            Object[] fila = {
+                produccion.getFecha(),
+                produccion.getReceta().getTipoHelado(),
+                produccion.getReceta().getSabor(),
+                produccion.getCantidad()
+            };
+            modelo.addRow(fila);
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,14 +60,14 @@ public class FrmReportes extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaReportes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         btnActualizarLista = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reportes");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -47,7 +78,7 @@ public class FrmReportes extends javax.swing.JFrame {
                 "Fecha", "Tipo", "Sabor", "Cantidad Producida"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaReportes);
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 102));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -57,6 +88,7 @@ public class FrmReportes extends javax.swing.JFrame {
 
         btnActualizarLista.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnActualizarLista.setText("Actualizar");
+        btnActualizarLista.addActionListener(this::btnActualizarListaActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -85,6 +117,10 @@ public class FrmReportes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnActualizarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarListaActionPerformed
+        cargarReportes();
+    }//GEN-LAST:event_btnActualizarListaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -107,13 +143,19 @@ public class FrmReportes extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new FrmReportes().setVisible(true));
+        java.awt.EventQueue.invokeLater(() -> {
+            try {
+                new FrmReportes().setVisible(true);
+            } catch (IOException ex) {
+                System.getLogger(FrmReportes.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizarLista;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaReportes;
     // End of variables declaration//GEN-END:variables
 }
