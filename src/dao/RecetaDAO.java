@@ -103,7 +103,7 @@ public class RecetaDAO extends ArchivoDAO{
             .append(d.getCantidadPorUnidad());
             
             if (i < detalles.size() - 1) {
-                sb.append(",");
+                sb.append(";");
             }
         }
         sb.append("|");

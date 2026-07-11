@@ -44,7 +44,7 @@ public class ControladorInventario {
         }
         
         _ingredienteDAO.agregar(new Ingrediente(nombre,unidad,stock,stockMinimo));
-        return "El ingrediente se ha registrado corectamente.";
+        return "EXITO, ingrediente registrado corectamente.";
     }
     
     
@@ -56,7 +56,7 @@ public class ControladorInventario {
             return "ERROR, completa nombre y unidad.";
         }
         if (nuevoStock < 0 || nuevoStockMinimo < 0) {
-            return "Error, el stock no puede ser negativo.";
+            return "ERROR, el stock no puede ser negativo.";
         }
         
         ArrayList<Ingrediente> listaIng = _ingredienteDAO.listarTodos();
@@ -81,7 +81,7 @@ public class ControladorInventario {
         ing.setStockMinimo(nuevoStockMinimo);
         
         _ingredienteDAO.guardarTodos(listaIng);
-        return "Ingrediente actualizado.";
+        return "EXITO, ingrediente actualizado.";
     }
     
     public String eliminarIngrediente(String nombre) {
@@ -94,7 +94,7 @@ public class ControladorInventario {
         
         listIng.remove(ing);
         _ingredienteDAO.guardarTodos(listIng);
-        return "Ingrediente eliminado.";
+        return "EXITO, ingrediente eliminado.";
     }
     
 }

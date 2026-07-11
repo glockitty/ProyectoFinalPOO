@@ -32,14 +32,14 @@ public class ControladorProduccion {
     //produce de acuerdo a la cantidad segun el tipo de receta
     public String prepararProduccion(Receta receta, int cantidad) {
         if (cantidad <= 0) {
-            return "Error, la cantidad a producir debe ser mayor a 0.";
+            return "ERROR, la cantidad a producir debe ser mayor a 0.";
         }
         
         ArrayList<Ingrediente> inventario = _ingredienteDAO.listarTodos();
         ArrayList<DetalleReceta> detalles = receta.getDetalles();
         
         if (detalles.isEmpty()) {
-            return "Error, la receta no tiene ingredientes agregados.";
+            return "ERROR, la receta no tiene ingredientes agregados.";
         }
         
         //validar stock suficiente o no
@@ -90,7 +90,7 @@ public class ControladorProduccion {
         Produccion produccion = new Produccion(receta, cantidad, fechaActual);
         _produccionDAO.agregar(produccion);
         
-        String mensaje = "Se produjo correctamente " + cantidad + " unidades de " + receta.getIdentificador()
+        String mensaje = "EXITO, Se produjo correctamente " + cantidad + " unidades de " + receta.getIdentificador()
                 + ".";
         
         if (avisoStockBajo.length() > 0) {

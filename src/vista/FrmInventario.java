@@ -7,6 +7,8 @@ package vista;
 import controlador.ControladorInventario;
 import java.io.IOException;
 import java.util.ArrayList;
+import static javax.swing.JOptionPane.showMessageDialog;
+import javax.swing.table.DefaultTableModel;
 import modelo.Ingrediente;
 
 /**
@@ -31,8 +33,8 @@ public class FrmInventario extends javax.swing.JFrame {
     }
     
     private void cargarTablaInventario() {
-        javax.swing.table.DefaultTableModel modelo = 
-                (javax.swing.table.DefaultTableModel) tablaInventario.getModel();
+        DefaultTableModel modelo = 
+                (DefaultTableModel) tablaInventario.getModel();
         modelo.setRowCount(0);
         
         
@@ -46,6 +48,14 @@ public class FrmInventario extends javax.swing.JFrame {
             modelo.addRow(fila);
         }
         
+    }
+    
+    private void limpiarCampos() {
+        txtNombre.setText("");
+        txtUnidad.setText("");
+        txtStock.setText("");
+        txtStockMinimo.setText("");
+        nombreSeleccionado = null;
     }
 
     /**
@@ -201,7 +211,7 @@ public class FrmInventario extends javax.swing.JFrame {
         if (fila == -1) {
         }
         
-        javax.swing.table.DefaultTableModel modelo = (javax.swing.table.DefaultTableModel)
+        DefaultTableModel modelo = (DefaultTableModel)
                 tablaInventario.getModel();
         
         String nombre = (String) modelo.getValueAt(fila, 0);
@@ -225,7 +235,7 @@ public class FrmInventario extends javax.swing.JFrame {
         String textoStockMinimo = txtStockMinimo.getText().trim();
         
         if (textoStock.isEmpty() || textoStockMinimo.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Completa stock y stock minimo");
+            showMessageDialog(this, "Completa stock y stock minimo");
         }
         
         
@@ -234,20 +244,22 @@ public class FrmInventario extends javax.swing.JFrame {
             double stockMinimo = Double.parseDouble(textoStockMinimo);
             
             String resultado = _controladorInventario.registrarIngredientes(nombre, unidad, stock, stockMinimo);
-            javax.swing.JOptionPane.showMessageDialog(this, resultado);
+            showMessageDialog(this, resultado);
             
-            cargarTablaInventario();
-            limpiarCampos();
+            if (resultado.startsWith("EXITO")) {
+                cargarTablaInventario();
+                limpiarCampos();
+            }
             
         } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
+            showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
         }
         
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         if (nombreSeleccionado == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
+            showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
             return;
         }
         
@@ -257,7 +269,7 @@ public class FrmInventario extends javax.swing.JFrame {
         String textoStockMinimo = txtStockMinimo.getText().trim();
         
         if (textoStock.isEmpty() || textoStockMinimo.isEmpty()) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Completa stock y stock minimo.");
+            showMessageDialog(this, "Completa stock y stock minimo.");
             return;
         }
         
@@ -267,13 +279,15 @@ public class FrmInventario extends javax.swing.JFrame {
             
             String resultado = _controladorInventario.editarIngrediente(
                     nombreSeleccionado, nuevoNombre, nuevaUnidad, nuevoStock, nuevoStockMinimo);
-            javax.swing.JOptionPane.showMessageDialog(this, resultado);
+            showMessageDialog(this, resultado);
             
-            cargarTablaInventario();
-            limpiarCampos();
+            if (resultado.startsWith("EXITO")) {
+                cargarTablaInventario();
+                limpiarCampos();
+            }
             
         } catch (NumberFormatException e) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
+            showMessageDialog(this, "Stock y stock minimo deben ser numeros.");
         }
         
         
@@ -281,7 +295,7 @@ public class FrmInventario extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if (nombreSeleccionado == null) {
-            javax.swing.JOptionPane.showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
+            showMessageDialog(this, "Primero haz clic en un ingrediente de la tabla.");
             return;
         }
         
@@ -295,20 +309,14 @@ public class FrmInventario extends javax.swing.JFrame {
         }
         
         String resultado = _controladorInventario.eliminarIngrediente(nombreSeleccionado);
-        javax.swing.JOptionPane.showMessageDialog(this, resultado);
+        showMessageDialog(this, resultado);
         
-        cargarTablaInventario();
-        limpiarCampos();
+        if (resultado.startsWith("EXITO")) {
+            cargarTablaInventario();
+            limpiarCampos();
+        }
     }//GEN-LAST:event_btnEliminarActionPerformed
-    
-    
-    private void limpiarCampos() {
-        txtNombre.setText("");
-        txtUnidad.setText("");
-        txtStock.setText("");
-        txtStockMinimo.setText("");
-        nombreSeleccionado = null;
-    }
+
     
     /**
      * @param args the command line arguments

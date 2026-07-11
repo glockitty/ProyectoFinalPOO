@@ -117,15 +117,27 @@ public class FrmMenuPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInventarioActionPerformed
 
     private void btnRecetasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecetasActionPerformed
-        new FrmReceta().setVisible(true);
+        try {
+            new FrmReceta().setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(FrmMenuPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_btnRecetasActionPerformed
 
     private void btnProduccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProduccionActionPerformed
-        new FrmProduccion().setVisible(true);
+        try {
+            new FrmProduccion().setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(FrmMenuPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_btnProduccionActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        new FrmReportes().setVisible(true);
+        try {
+            new FrmReportes().setVisible(true);
+        } catch (IOException ex) {
+            System.getLogger(FrmMenuPrincipal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_btnReportesActionPerformed
 
     /**
