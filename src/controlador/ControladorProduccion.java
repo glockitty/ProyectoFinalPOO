@@ -75,7 +75,7 @@ public class ControladorProduccion {
             //aviso del minimo stock
             if (ingredienteInventario.estaPorAgortarse()) {
                 avisoStockBajo.append("\n- ").append(ingredienteInventario.getNombre())
-                        .append("esta por agotarse (quedan ")
+                        .append(" esta por agotarse (quedan ")
                         .append(ingredienteInventario.getStock())
                         .append(" ").append(ingredienteInventario.getUnidad()).append(").");
             }
