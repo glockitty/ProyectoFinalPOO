@@ -33,8 +33,7 @@ public class ControladorReceta {
     
     
     //valida y agrega un detalleReceta a receta, todavia no se guarda en memoria
-    public String agregarIngredienteAReceta(Receta receta, String nombreIngrediente,
-            double cantidadPorUnidad) {
+    public String agregarIngredienteAReceta(Receta receta, String nombreIngrediente,double cantidadPorUnidad) {
         if (cantidadPorUnidad <= 0) {
             return "ERROR, la cantiad debe ser mayor a 0";
         }
