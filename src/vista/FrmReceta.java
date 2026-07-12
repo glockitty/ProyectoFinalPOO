@@ -138,6 +138,15 @@ public class FrmReceta extends javax.swing.JFrame {
                 "Ingrediente", "Cantidad por unidad"
             }
         ));
+        tablaIngredientesReceta.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tablaIngredientesRecetaAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
         jScrollPane1.setViewportView(tablaIngredientesReceta);
 
         btnGuardarReceta.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -160,6 +169,7 @@ public class FrmReceta extends javax.swing.JFrame {
         lblCantidad.setText("Cantidad por unidad:");
 
         txtCantidadPorUnidad.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtCantidadPorUnidad.addActionListener(this::txtCantidadPorUnidadActionPerformed);
 
         btnAgregarPaso.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAgregarPaso.setText("Agregar paso");
@@ -362,6 +372,12 @@ public class FrmReceta extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnGuardarRecetaActionPerformed
+
+    private void tablaIngredientesRecetaAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tablaIngredientesRecetaAncestorAdded
+    }//GEN-LAST:event_tablaIngredientesRecetaAncestorAdded
+
+    private void txtCantidadPorUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCantidadPorUnidadActionPerformed
+    }//GEN-LAST:event_txtCantidadPorUnidadActionPerformed
 
     /**
      * @param args the command line arguments
