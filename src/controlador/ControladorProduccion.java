@@ -14,6 +14,7 @@ import modelo.DetalleReceta;
 import modelo.Ingrediente;
 import modelo.Produccion;
 import modelo.Receta;
+import modelo.PasoReceta;
 
 /**
  *
@@ -90,16 +91,44 @@ public class ControladorProduccion {
         Produccion produccion = new Produccion(receta, cantidad, fechaActual);
         _produccionDAO.agregar(produccion);
         
-        String mensaje = "EXITO, Se produjo correctamente " + cantidad + " unidades de " + receta.getIdentificador()
-                + ".";
+        StringBuilder mensajeFinal = new StringBuilder();
         
-        if (avisoStockBajo.length() > 0) {
-            mensaje += "\n\nAVISO - ingredientes por agotarse:" + avisoStockBajo.toString();
+        // Mensaje principal de éxito
+        mensajeFinal.append("EXITO, Se produjo correctamente ").append(cantidad).append(" unidades de ").append(receta.getIdentificador()).append(".\n");
+        
+        // Alertas de stock bajo (si es que existen)
+        if (avisoStockBajo.length() > 0) { 
+            mensajeFinal.append("\nAVISO - ingredientes por agotarse:").append(avisoStockBajo.toString()).append("\n"); 
         }
-        return mensaje;
+        
+        // Listado de ingredientes escalados según la cantidad producida
+        mensajeFinal.append("INGREDIENTES UTILIZADOS:\n");
+        for (DetalleReceta detalle : detalles) { 
+            // Multiplica la cantidad base de la receta por la cantidad ingresada por el usuario
+            double cantidadTotalInsumo = detalle.calcularCantidadTotal(cantidad); 
+            mensajeFinal.append(" • ").append(detalle.getIngrediente().getNombre())
+                        .append(": ")
+                        .append(cantidadTotalInsumo)
+                        .append(" ")
+                        .append(detalle.getIngrediente().getUnidad())
+                        .append("\n"); 
+        }
+        // Listado de la secuencia de pasos de la receta
+        mensajeFinal.append("PASOS DE PREPARACIÓN:\n");
+        if (receta.getPasos().isEmpty()) { 
+            mensajeFinal.append(" No se registraron pasos para esta receta.\n");
+        } else {
+            for (PasoReceta paso : receta.getPasos()) { 
+                mensajeFinal.append("  ")
+                            .append(paso.getNumeroPaso())
+                            .append(". ")
+                            .append(paso.getDescripcion())
+                            .append("\n"); 
+            }
+        }   
+        return mensajeFinal.toString();
     }
-    
     public ArrayList<Produccion> obtenerReportes() {
-        return _produccionDAO.listarTodas();
+        return _produccionDAO.listarTodas(); 
     }
 }
