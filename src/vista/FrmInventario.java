@@ -236,6 +236,7 @@ public class FrmInventario extends javax.swing.JFrame {
         
         if (textoStock.isEmpty() || textoStockMinimo.isEmpty()) {
             showMessageDialog(this, "Completa stock y stock minimo");
+            return;
         }
         
         
