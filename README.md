@@ -1,6 +1,6 @@
 <div align="center">
 
-#  🍦 Proyecto Final — Segundo Ciclo
+#  🍦 Proyecto Final — Segundo Ciclo 
 
 [![Estado](https://img.shields.io/badge/Estado-Completado-success?style=for-the-badge)]()
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-blue?style=for-the-badge&logo=github)]()
