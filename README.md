@@ -8,6 +8,6 @@
 ---
 
 ### 🚀 **Resumen del Proyecto**
-> Sistema informático para la automatización en el cálculo de materia prima en función de la cantidad de producción proyectada y para la optimización del control de inventario dentro de la empresa
+> Sistema informático para la automatización en el cálculo de materia prima en función de la cantidad de producción proyectada y para la optimización del control de inventario dentro de la empresa.
 
 ---
